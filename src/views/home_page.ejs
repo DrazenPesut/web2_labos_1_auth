@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <title>Digitalne Propusnice - Početna</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f9f9f9; color: #333; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .btn { padding: 6px 12px; margin-right: 5px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; text-decoration: none; display: inline-block; }
+    .btn-danger { background: #dc3545; }
+    .btn-warning { background: #ffc107; color: black; }
+    .auth-box { margin-bottom: 20px; padding: 15px; background: #fff; border: 1px solid #ccc; border-radius: 5px; }
+    .status-active { color: green; font-weight: bold; }
+    .status-cancelled { color: red; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Sustav digitalnih propusnica</h1>
+
+  <div class="auth-box">
+    <% if (userIsAuthenticated) { %>
+      <p>Prijavljeni ste kao <strong><%= user.email || user.name %></strong>.</p>
+      <a href="/logout" class="btn btn-danger">Odjava</a>
+    <% } else { %>
+      <p>Korisnik nije prijavljen.</p>
+      <a href="/login" class="btn">Prijava u sustav</a>
+    <% } %>
+  </div>
+
+  <h2>Statistika</h2>
+  <p><strong>Ukupan broj propusnica:</strong> <%= totalPasses %></p>
+  <p><strong>Broj aktivnih propusnica:</strong> <%= activePasses %></p>
+
+  <% if (userIsAuthenticated) { %>
+    <h2>Upravljanje propusnicama</h2>
+    <% if (passes.length > 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Ime i prezime</th>
+            <th>Dokument</th>
+            <th>Vrijeme izdavanja</th>
+            <th>Status</th>
+            <th>Akcije</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% passes.forEach(pass => { %>
+            <tr>
+              <td><%= pass.id %></td>
+              <td><%= pass.name %></td>
+              <td><%= pass.document %></td>
+              <td><%= new Date(pass.issued_at).toLocaleString('hr-HR') %></td>
+              <td>
+                <td>
+                  <span class="status-<%= pass.status.toLowerCase() %>">
+                    <%= pass.status %>
+                  </span>
+                </td>
+              </td>
+              <td>
+                <% if (pass.status === 'ACTIVE') { %>
+                  <form action="/app/passes/<%= pass.id %>/cancel" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-warning">Poništi</button>
+                  </form>
+                <% } %>
+                <form action="/app/passes/<%= pass.id %>/delete" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn-danger">Obriši</button>
+                </form>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>Trenutno nema kreiranih propusnica u bazi.</p>
+    <% } %>
+  <% } %>
+</body>
+</html>
