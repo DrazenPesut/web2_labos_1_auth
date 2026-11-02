@@ -230,7 +230,7 @@ app.post(
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent) return next(err);
   const status = err.status ?? 500;
-  if (err.headers) res.set(err.headers); // npr. WWW-Authenticate
+  if (err.headers) res.set(err.headers);
   if (status >= 500) console.error(err);
   res.status(status).json({ error: status >= 500 ? 'Greška na poslužitelju.' : err.message });
 });
