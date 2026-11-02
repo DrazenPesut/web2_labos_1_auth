@@ -181,7 +181,7 @@ app.get(
       });
     } catch (error: any) {
       if (error.code === '22P02') {
-        return res.sendStatus(404);
+        res.sendStatus(404);
       }
       console.error(error);
       res.sendStatus(500);
