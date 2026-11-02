@@ -2,7 +2,7 @@
 <html lang="hr">
 <head>
   <meta charset="UTF-8">
-  <title>Digitalne Propusnice - Početna</title>
+  <title>Digitalne Propusnice</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 40px; background: #f9f9f9; color: #333; }
     table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; }
@@ -21,15 +21,15 @@
 
   <div class="auth-box">
     <% if (userIsAuthenticated) { %>
-      <p>Prijavljeni ste kao <strong><%= user.email || user.name %></strong>.</p>
+      <p>Korisnik: <strong><%= user.name %></strong>.</p>
       <a href="/logout" class="btn btn-danger">Odjava</a>
     <% } else { %>
-      <p>Korisnik nije prijavljen.</p>
-      <a href="/login" class="btn">Prijava u sustav</a>
+      <p>Ne prijavljen.</p>
+      <a href="/login" class="btn">Prijava</a>
     <% } %>
   </div>
 
-  <h2>Statistika</h2>
+  <h2>Propusnice u bazi podataka</h2>
   <p><strong>Ukupan broj propusnica:</strong> <%= totalPasses %></p>
   <p><strong>Broj aktivnih propusnica:</strong> <%= activePasses %></p>
 

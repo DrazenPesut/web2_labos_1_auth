@@ -65,9 +65,9 @@ async function initDb() {
   `;
   try {
     await pool.query(createTableQuery);
-    console.log('✅ Tablica "passes" je spremna u bazi podataka.');
+    console.log('Tablica je spremna.');
   } catch (error) {
-    console.error('❌ Greška prilikom stvaranja tablice:', error);
+    console.error('Greška prilikom stvaranja tablice:', error);
   }
 }
 
@@ -158,7 +158,6 @@ app.post('/app/passes/:id/delete', requiresAuth(), async (req: Request, res: Res
 });
 
 //* M2M: dohvat propusnice
-
 app.get(
   '/app/passes/:id',
   checkJwt,
@@ -227,6 +226,7 @@ app.post(
     }
   }
 );
+
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent) return next(err);
   const status = err.status ?? 500;
@@ -237,6 +237,6 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 initDb().then(() => {
   app.listen(PORT, () => {
-    console.log(`🚀 Server sluša na http://localhost:${PORT}`);
+    console.log(` Server pokrenut.`);
   });
 });
